@@ -395,7 +395,7 @@ function SectionNavigation({
 
 export default function Home() {
   const [query, setQuery] = useState('');
-  const [activeChapter, setActiveChapter] = useState(1);
+  const [activeChapter, setActiveChapter] = useState(() => readInitialLocation().chapter);
   const [completed, setCompleted] = useState<number[]>([]);
   const [storageError, setStorageError] = useState('');
   const [searchJump, setSearchJump] = useState<SearchJump | null>(null);
@@ -486,9 +486,7 @@ export default function Home() {
     setCompleted(savedProgress.completed);
     if (savedProgress.failed) setStorageError('저장된 학습 진도를 읽지 못해 새 진도로 시작했습니다.');
     if (!hasValidUrlChapter) writeLocation(initialLocation.chapter, initialLocation.section, true);
-    if (initialLocation.section) {
-      window.requestAnimationFrame(() => document.getElementById(initialLocation.section ?? '')?.scrollIntoView({ block: 'start' }));
-    }
+    if (initialLocation.section) focusDestination(initialLocation.section, false);
 
     const syncFromBrowser = () => {
       const url = new URL(window.location.href);
