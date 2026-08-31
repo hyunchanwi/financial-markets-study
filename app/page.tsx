@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ArrowRight,
   BookOpen,
@@ -19,9 +19,59 @@ import {
 import { chapterSearchText, chapters, type Chapter } from '../src/chapter-data';
 
 const progressKey = 'financial-markets-study-progress';
+const validChapterNumbers = new Set(chapters.map((chapter) => chapter.number));
+type DrawerMode = 'closed' | 'menu' | 'search';
+
+/* oxlint-disable jsx-a11y/no-noninteractive-tabindex, jsx-a11y/no-noninteractive-element-interactions -- this scroll region needs explicit keyboard panning */
+function ComparisonTable({ chapter }: { chapter: Chapter }) {
+  const tableHintId = `compare-table-hint-${chapter.number}`;
+
+  return (
+    <>
+      <p className="table-scroll-hint" id={tableHintId}>표를 좌우로 움직여 비교하세요. 첫 열은 행의 기준으로 고정됩니다.</p>
+      <section
+        className="table-scroll"
+        aria-label={`${chapter.compareTitle} 비교표`}
+        aria-describedby={tableHintId}
+        tabIndex={0}
+        onKeyDown={(event) => {
+          if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+
+          const scrollArea = event.currentTarget;
+          const maxScrollLeft = scrollArea.scrollWidth - scrollArea.clientWidth;
+          const canScroll = event.key === 'ArrowLeft'
+            ? scrollArea.scrollLeft > 0
+            : scrollArea.scrollLeft < maxScrollLeft - 1;
+          if (!canScroll) return;
+
+          event.preventDefault();
+          scrollArea.scrollBy({
+            left: event.key === 'ArrowRight' ? 80 : -80,
+            behavior: 'auto',
+          });
+        }}
+      >
+        <table className="compare-table">
+          <thead><tr>{chapter.compareHeaders.map((header) => <th scope="col" key={header}>{header}</th>)}</tr></thead>
+          <tbody>
+            {chapter.compareRows.map((row) => (
+              <tr key={row.join('-')}>
+                {row.map((cell, index) => index === 0
+                  ? <th scope="row" key={`${cell}-${index}`}>{cell}</th>
+                  : <td key={`${cell}-${index}`}>{cell}</td>)}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+    </>
+  );
+}
+/* oxlint-enable jsx-a11y/no-noninteractive-tabindex, jsx-a11y/no-noninteractive-element-interactions */
 
 function ChapterLesson({ chapter }: { chapter: Chapter }) {
   const [answerOpen, setAnswerOpen] = useState(false);
+  const answerId = `quiz-answer-${chapter.number}`;
 
   return (
     <article className="lesson-content">
@@ -75,16 +125,7 @@ function ChapterLesson({ chapter }: { chapter: Chapter }) {
           <div><span className="section-number">03</span><h2>{chapter.compareTitle}</h2></div>
           <p>{chapter.compareLead}</p>
         </div>
-        <div className="table-scroll">
-          <table className="compare-table">
-            <thead><tr>{chapter.compareHeaders.map((header) => <th key={header}>{header}</th>)}</tr></thead>
-            <tbody>
-              {chapter.compareRows.map((row) => (
-                <tr key={row.join('-')}>{row.map((cell, index) => <td key={`${cell}-${index}`}>{cell}</td>)}</tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <ComparisonTable chapter={chapter} />
       </section>
 
       {chapter.formula && (
@@ -108,10 +149,18 @@ function ChapterLesson({ chapter }: { chapter: Chapter }) {
       <section className="quiz-card" id="check">
         <div className="quiz-label"><CircleHelp size={18} /> 이해도 확인</div>
         <h2>{chapter.quiz.question}</h2>
-        <button type="button" className="answer-button" onClick={() => setAnswerOpen((open) => !open)}>
+        <button
+          type="button"
+          className="answer-button"
+          onClick={() => setAnswerOpen((open) => !open)}
+          aria-expanded={answerOpen}
+          aria-controls={answerId}
+        >
           {answerOpen ? '정답 닫기' : '정답 확인'} <ChevronRight size={17} />
         </button>
-        {answerOpen && <div className="quiz-answer"><strong>{chapter.quiz.answer}</strong><span>{chapter.quiz.explanation}</span></div>}
+        <section className="quiz-answer" id={answerId} hidden={!answerOpen} aria-label="퀴즈 정답">
+          <strong>{chapter.quiz.answer}</strong><span>{chapter.quiz.explanation}</span>
+        </section>
       </section>
 
       <section className="memory-section">
@@ -136,9 +185,23 @@ export default function Home() {
     if (typeof window === 'undefined') return [];
     const saved = window.localStorage.getItem(progressKey);
     if (!saved) return [];
-    try { return JSON.parse(saved); } catch { return []; }
+    try {
+      const parsed: unknown = JSON.parse(saved);
+      if (!Array.isArray(parsed)) return [];
+      return [...new Set(parsed.filter(
+        (number): number is number => typeof number === 'number' && validChapterNumbers.has(number),
+      ))];
+    } catch {
+      return [];
+    }
   });
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [drawerMode, setDrawerMode] = useState<DrawerMode>('closed');
+  const [isMobile, setIsMobile] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const sidebarRef = useRef<HTMLElement>(null);
+  const drawerOpenerRef = useRef<HTMLElement | null>(null);
 
   const filteredChapters = useMemo(() => {
     const normalized = query.trim().toLowerCase();
@@ -147,6 +210,101 @@ export default function Home() {
   }, [query]);
 
   const chapter = chapters.find((item) => item.number === activeChapter) ?? chapters[0];
+  const drawerOpen = isMobile && drawerMode !== 'closed';
+  const menuModalOpen = isMobile && drawerMode === 'menu';
+  const searchResultsOpen = isMobile && drawerMode === 'search';
+  const progressPercent = chapters.length === 0 ? 0 : (completed.length / chapters.length) * 100;
+
+  const closeDrawer = useCallback((restoreFocus = true) => {
+    setDrawerMode('closed');
+    if (!restoreFocus) return;
+
+    const opener = drawerOpenerRef.current;
+    window.requestAnimationFrame(() => {
+      if (opener?.isConnected && opener.getClientRects().length > 0) opener.focus();
+    });
+  }, []);
+
+  const openMenu = () => {
+    setQuery('');
+    drawerOpenerRef.current = menuButtonRef.current;
+    setDrawerMode('menu');
+  };
+
+  useEffect(() => {
+    const mobileQuery = window.matchMedia('(max-width: 760px)');
+    const syncMobileState = () => {
+      setIsMobile(mobileQuery.matches);
+      if (!mobileQuery.matches) {
+        setDrawerMode('closed');
+        drawerOpenerRef.current = null;
+      }
+    };
+
+    syncMobileState();
+    mobileQuery.addEventListener('change', syncMobileState);
+    return () => mobileQuery.removeEventListener('change', syncMobileState);
+  }, []);
+
+  useEffect(() => {
+    if (!menuModalOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.requestAnimationFrame(() => closeButtonRef.current?.focus());
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeDrawer();
+        return;
+      }
+
+      if (event.key !== 'Tab' || !sidebarRef.current) return;
+      const focusableElements = Array.from(
+        sidebarRef.current.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), a[href], input:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      ).filter((element) => element.getClientRects().length > 0);
+
+      if (focusableElements.length === 0) {
+        event.preventDefault();
+        return;
+      }
+
+      const first = focusableElements[0];
+      const last = focusableElements[focusableElements.length - 1];
+      const activeElement = document.activeElement;
+
+      if (event.shiftKey && (activeElement === first || !sidebarRef.current.contains(activeElement))) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && (activeElement === last || !sidebarRef.current.contains(activeElement))) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [closeDrawer, menuModalOpen]);
+
+  useEffect(() => {
+    if (!searchResultsOpen) return;
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      event.preventDefault();
+      closeDrawer();
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [closeDrawer, searchResultsOpen]);
+
   const toggleCompleted = () => {
     const next = completed.includes(chapter.number)
       ? completed.filter((number) => number !== chapter.number)
@@ -157,26 +315,65 @@ export default function Home() {
 
   const selectChapter = (number: number) => {
     setActiveChapter(number);
-    setMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setQuery('');
+    closeDrawer();
+    window.scrollTo({
+      top: 0,
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+    });
+  };
+
+  const handleSearchChange = (value: string) => {
+    setQuery(value);
+    if (!isMobile) return;
+
+    if (value.trim()) {
+      drawerOpenerRef.current = searchInputRef.current;
+      setDrawerMode('search');
+    } else if (drawerMode === 'search') {
+      closeDrawer(false);
+    }
   };
 
   return (
     <main>
       <header className="topbar">
-        <button className="mobile-menu" type="button" onClick={() => setMenuOpen(true)} aria-label="목차 열기"><Menu /></button>
+        <button
+          ref={menuButtonRef}
+          className="mobile-menu"
+          type="button"
+          onClick={openMenu}
+          aria-label="목차 열기"
+          aria-expanded={menuModalOpen}
+          aria-controls="chapter-sidebar"
+        ><Menu /></button>
         <a className="brand" href="#top"><GraduationCap /><div><strong>금융시장론</strong><span>전 강의 공부노트</span></div></a>
-        <div className="search-box"><Search size={18} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="개념, 상품, 제도 검색" aria-label="강의 내용 검색" /></div>
-        <div className="progress-summary"><span>{completed.length}/10 완료</span><div><i style={{ width: `${completed.length * 10}%` }} /></div></div>
+        <div className="search-box"><Search size={18} /><input ref={searchInputRef} value={query} onChange={(event) => handleSearchChange(event.target.value)} placeholder="개념, 상품, 제도 검색" aria-label="강의 내용 검색" aria-controls="chapter-navigation" aria-describedby="search-results-status" /></div>
+        <output className="sr-only" id="search-results-status" aria-live="polite" aria-atomic="true">
+          {query.trim() ? (filteredChapters.length === 0 ? '검색 결과가 없습니다.' : `검색 결과 ${filteredChapters.length}개`) : ''}
+        </output>
+        {/* Custom visual progress meter retains native progressbar semantics. */}
+        {/* oxlint-disable-next-line jsx-a11y/prefer-tag-over-role */}
+        <div className="progress-summary" role="progressbar" aria-label="학습 완료 진도" aria-valuemin={0} aria-valuemax={chapters.length} aria-valuenow={completed.length}><span>{completed.length}/{chapters.length} 완료</span><div><i style={{ width: `${progressPercent}%` }} /></div></div>
+        <span className="mobile-progress" aria-live="polite">{completed.length}/{chapters.length} 완료</span>
       </header>
 
       <div className="app-shell" id="top">
-        {menuOpen && <button className="sidebar-backdrop" aria-label="목차 닫기" onClick={() => setMenuOpen(false)} />}
-        <aside className={`sidebar ${menuOpen ? 'open' : ''}`}>
-          <div className="sidebar-title"><BookOpen size={18} /><strong>전체 강의</strong><button type="button" onClick={() => setMenuOpen(false)} aria-label="목차 닫기"><X /></button></div>
-          <nav>
+        {menuModalOpen && <button type="button" className="sidebar-backdrop" aria-label="목차 닫기" onClick={() => closeDrawer()} />}
+        <aside
+          ref={sidebarRef}
+          className={`sidebar ${drawerOpen ? 'open' : ''} ${menuModalOpen ? 'menu-modal' : ''} ${searchResultsOpen ? 'search-results' : ''}`}
+          id="chapter-sidebar"
+          role={menuModalOpen ? 'dialog' : undefined}
+          aria-modal={menuModalOpen ? true : undefined}
+          aria-hidden={isMobile && drawerMode === 'closed' ? true : undefined}
+          aria-label={searchResultsOpen ? '강의 검색 결과' : '전체 강의 목차'}
+          inert={isMobile && drawerMode === 'closed' ? true : undefined}
+        >
+          <div className="sidebar-title"><BookOpen size={18} /><strong>{searchResultsOpen ? '검색 결과' : '전체 강의'}</strong><button ref={closeButtonRef} type="button" onClick={() => closeDrawer()} aria-label={searchResultsOpen ? '검색 결과 닫기' : '목차 닫기'}><X /></button></div>
+          <nav id="chapter-navigation" aria-label={searchResultsOpen ? '검색된 강의 장 목록' : '강의 장 목록'}>
             {filteredChapters.map((item) => (
-              <button key={item.number} type="button" className={activeChapter === item.number ? 'active' : ''} onClick={() => selectChapter(item.number)}>
+              <button key={item.number} type="button" className={activeChapter === item.number ? 'active' : ''} onClick={() => selectChapter(item.number)} aria-current={activeChapter === item.number ? 'page' : undefined}>
                 <span className="chapter-number">{String(item.number).padStart(2, '0')}</span>
                 <span><strong>{item.title}</strong><small>{item.description}</small></span>
                 {completed.includes(item.number) && <Check className="chapter-check" size={16} />}
@@ -194,7 +391,7 @@ export default function Home() {
               <p>{chapter.description}</p>
               <div className="topic-row">{chapter.topics.map((topic) => <span key={topic}>{topic}</span>)}</div>
             </div>
-            <button type="button" className={`complete-button ${completed.includes(chapter.number) ? 'done' : ''}`} onClick={toggleCompleted}>
+            <button type="button" className={`complete-button ${completed.includes(chapter.number) ? 'done' : ''}`} onClick={toggleCompleted} aria-pressed={completed.includes(chapter.number)}>
               <Target size={19} /> {completed.includes(chapter.number) ? '학습 완료됨' : '학습 완료 표시'}
             </button>
           </section>
