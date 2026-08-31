@@ -710,6 +710,7 @@ export default function Home() {
           aria-label={query.trim() ? '강의 검색 결과' : '전체 강의 목차'}
           inert={isMobile && drawerMode === 'closed' ? true : undefined}
         >
+          <a className="hub-back" href="https://hyunchanwi.github.io/study-hub/"><ArrowLeft size={15} /> 전체 과목</a>
           <div className="sidebar-title"><BookOpen size={18} /><strong>{query.trim() ? `검색 결과 ${searchResults.length}개` : '전체 강의'}</strong><button ref={closeButtonRef} type="button" onClick={() => query.trim() ? clearSearch(false) : closeDrawer()} aria-label={query.trim() ? '검색 결과 닫기 및 검색어 지우기' : '목차 닫기'}><X /></button></div>
           <nav id="chapter-navigation" aria-label={query.trim() ? '검색된 강의 장 목록' : '강의 장 목록'}>
             {navigationItems.map((result) => (
