@@ -1,0 +1,20 @@
+{
+  "id": "efficiency-map",
+  "type": "tree",
+  "title": "효율성은 세 가지 질문으로 나뉜다",
+  "caption": "운영효율성과 배분효율성이 함께 충족되면 강의자료가 말하는 경제적 효율성에 가까워진다.",
+  "nodes": [
+    { "id": "efficiency", "label": "금융시장 효율성", "detail": "무엇이 효율적인가?" },
+    { "id": "operational", "label": "운영효율성", "detail": "적은 비용·빠른 거래" },
+    { "id": "allocative", "label": "배분효율성", "detail": "생산적인 투자안으로 이동" },
+    { "id": "informational", "label": "정보효율성", "detail": "관련정보가 가격에 반영" },
+    { "id": "economic", "label": "경제적 효율성", "detail": "운영 + 배분" }
+  ],
+  "edges": [
+    { "from": "efficiency", "to": "operational" },
+    { "from": "efficiency", "to": "allocative" },
+    { "from": "efficiency", "to": "informational" },
+    { "from": "operational", "to": "economic", "label": "함께 충족" },
+    { "from": "allocative", "to": "economic", "label": "함께 충족" }
+  ]
+}

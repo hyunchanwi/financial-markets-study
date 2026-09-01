@@ -1,0 +1,15 @@
+id: financial-markets
+title: 금융시장론
+schema_version: 1
+publication: pilot
+chapters:
+  - { number: 1, slug: ch01, delivery: pilot }
+  - { number: 2, slug: ch02, delivery: pilot }
+  - { number: 3, slug: ch03, delivery: pilot }
+  - { number: 4, slug: ch04, delivery: legacy }
+  - { number: 5, slug: ch05, delivery: legacy }
+  - { number: 6, slug: ch06, delivery: legacy }
+  - { number: 7, slug: ch07, delivery: legacy }
+  - { number: 8, slug: ch08, delivery: legacy }
+  - { number: 9, slug: ch09, delivery: legacy }
+  - { number: 10, slug: ch10, delivery: legacy }

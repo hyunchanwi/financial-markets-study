@@ -1,0 +1,17 @@
+course: financial-markets
+authority: local-lecture-materials
+packets:
+  - { id: fm-p01, chapter: 1, pages: 15, file: "강의노트 1장(금융시장 기초).pdf" }
+  - { id: fm-p02, chapter: 2, pages: 12, file: "강의노트 2장(금융시장의 효율성).pdf" }
+  - { id: fm-p03, chapter: 3, pages: 67, file: "강의노트 3장(금융기관)-1.pdf" }
+  - { id: fm-p04, chapter: 3, pages: 36, file: "강의노트 3장(금융기관)-2.pdf" }
+  - { id: fm-p05, chapter: 4, pages: 29, file: "강의노트 4장(단기금융시장)-1.pdf" }
+  - { id: fm-p06, chapter: 4, pages: 41, file: "강의노트 4장(단기금융시장)-2.pdf" }
+  - { id: fm-p07, chapter: 5, pages: 30, file: "강의노트 5장(장기금융시장)-1.pdf" }
+  - { id: fm-p08, chapter: 5, pages: 34, file: "강의노트 5장(장기금융시장)-2.pdf" }
+  - { id: fm-p09, chapter: 5, pages: 37, file: "강의노트 5장(장기금융시장)-3.pdf" }
+  - { id: fm-p10, chapter: 6, pages: 9, file: "강의노트 6장(예금시장).pdf" }
+  - { id: fm-p11, chapter: 7, pages: 21, file: "강의노트 7장(대출시장).pdf" }
+  - { id: fm-p12, chapter: 8, pages: 21, file: "강의노트 8장(여신전문금융시장).pdf" }
+  - { id: fm-p13, chapter: 9, pages: 30, file: "강의노트 9장(집합투자증권시장).pdf" }
+  - { id: fm-p14, chapter: 10, pages: 20, file: "강의노트 10장(보험시장).pdf" }

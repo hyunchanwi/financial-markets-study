@@ -1,0 +1,14 @@
+{
+  "id": "country-asset-mix",
+  "type": "bar",
+  "title": "2021년 주요국 전체 가계자산 구성 비교",
+  "caption": "강의자료 15쪽의 2021년 표(일본은 2020년)를 재구성한 역사적 비교이며 현재 비율이 아니다.",
+  "category_label": "국가",
+  "series": [
+    { "category": "한국", "financial": 35.6, "nonfinancial": 64.4 },
+    { "category": "미국", "financial": 71.5, "nonfinancial": 28.5 },
+    { "category": "일본*", "financial": 63.0, "nonfinancial": 37.0 },
+    { "category": "영국", "financial": 53.8, "nonfinancial": 46.2 },
+    { "category": "호주", "financial": 38.8, "nonfinancial": 61.2 }
+  ]
+}

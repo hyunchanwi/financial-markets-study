@@ -1,0 +1,23 @@
+{
+  "id": "international-decision",
+  "type": "decision",
+  "title": "국내·국제금융시장 판별 순서",
+  "caption": "거주자, 통화, 거래장소 중 국경을 넘는 요소가 있는지 차례로 확인한다.",
+  "nodes": [
+    { "id": "start", "label": "거래 사례", "detail": "세 기준을 확인" },
+    { "id": "resident", "label": "외국 거주자 참여?", "detail": "참여자 기준" },
+    { "id": "currency", "label": "외국통화 표시?", "detail": "표시통화 기준" },
+    { "id": "place", "label": "외국에서 거래?", "detail": "거래장소 기준" },
+    { "id": "international", "label": "국제금융", "detail": "하나라도 예" },
+    { "id": "domestic", "label": "국내금융", "detail": "세 질문 모두 아니오" }
+  ],
+  "edges": [
+    { "from": "start", "to": "resident" },
+    { "from": "resident", "to": "international", "label": "예" },
+    { "from": "resident", "to": "currency", "label": "아니오" },
+    { "from": "currency", "to": "international", "label": "예" },
+    { "from": "currency", "to": "place", "label": "아니오" },
+    { "from": "place", "to": "international", "label": "예" },
+    { "from": "place", "to": "domestic", "label": "아니오" }
+  ]
+}

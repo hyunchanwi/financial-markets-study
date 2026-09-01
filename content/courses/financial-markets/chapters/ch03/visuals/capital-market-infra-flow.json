@@ -1,0 +1,21 @@
+{
+  "id": "capital-market-infra-flow",
+  "type": "flow",
+  "title": "증권 주문에서 권리관리까지",
+  "caption": "거래소·코스콤·예탁결제원은 경쟁관계가 아니라 체결·전산·결제·권리관리의 서로 다른 층을 담당한다.",
+  "nodes": [
+    { "id": "order", "label": "투자자 주문", "detail": "증권사를 통해 제출" },
+    { "id": "koscom", "label": "코스콤 전산", "detail": "주문·정보·보안 인프라" },
+    { "id": "krx", "label": "한국거래소", "detail": "시장개설·체결·감시" },
+    { "id": "settlement", "label": "청산·결제", "detail": "증권과 대금 교환" },
+    { "id": "ksd", "label": "한국예탁결제원", "detail": "집중예탁·계좌대체" },
+    { "id": "rights", "label": "투자자 권리", "detail": "배당·증자·의결권" }
+  ],
+  "edges": [
+    { "from": "order", "to": "koscom", "label": "주문 전송" },
+    { "from": "koscom", "to": "krx", "label": "시장 시스템" },
+    { "from": "krx", "to": "settlement", "label": "체결결과" },
+    { "from": "settlement", "to": "ksd", "label": "증권 인도" },
+    { "from": "ksd", "to": "rights", "label": "소유기록·권리처리" }
+  ]
+}

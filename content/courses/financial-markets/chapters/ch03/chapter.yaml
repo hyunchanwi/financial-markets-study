@@ -1,0 +1,27 @@
+number: 3
+id: chapter-3
+title: 금융기관
+description: 돈의 크기·기간·위험을 바꾸는 금융기관부터 거래·결제·보증·감독을 맡는 금융시장 관련기관까지 하나의 금융시스템으로 연결합니다.
+topics:
+  - 금융기관의 자산변형과 정보생산
+  - 은행·비은행예금취급기관
+  - 증권·자산운용·보험기관
+  - 여신전문금융과 벤처금융
+  - 보증·결제·시장인프라
+  - 예금보험·부실자산정리·금융감독
+memory: 금융기관은 자금을 변환하고, 시장인프라는 거래를 완성하며, 안전망과 감독기관은 실패가 시스템 전체로 번지는 것을 막는다.
+delivery: pilot
+units:
+  - ch03-institution-functions
+  - ch03-banks
+  - ch03-community-finance
+  - ch03-securities-firms
+  - ch03-asset-management
+  - ch03-insurance
+  - ch03-specialized-credit
+  - ch03-lease-venture-merchant
+  - ch03-guarantee-institutions
+  - ch03-money-brokers-clearing
+  - ch03-capital-market-infrastructure
+  - ch03-financial-safety-net
+  - ch03-supervision

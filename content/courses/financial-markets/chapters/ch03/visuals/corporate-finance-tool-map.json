@@ -1,0 +1,25 @@
+{
+  "id": "corporate-finance-tool-map",
+  "type": "tree",
+  "title": "기업의 필요에 따라 달라지는 금융도구",
+  "caption": "자산을 쓰고 싶은지, 성장위험을 함께 부담할 자본이 필요한지, 여러 금융을 한 번에 원하는지에 따라 기관이 달라진다.",
+  "nodes": [
+    { "id": "company-needs", "label": "기업의 자금 필요", "detail": "무엇이 부족한가?" },
+    { "id": "asset-use", "label": "설비 사용권", "detail": "리스" },
+    { "id": "risk-capital", "label": "고위험 성장자금", "detail": "신기술사업금융" },
+    { "id": "package", "label": "종합 기업금융", "detail": "종합금융회사" },
+    { "id": "finance-lease", "label": "금융리스", "detail": "구매금융에 가까움" },
+    { "id": "operating-lease", "label": "운용리스", "detail": "임대에 가까움" },
+    { "id": "equity", "label": "주식·CB·BW", "detail": "성공성과 공유" },
+    { "id": "merchant", "label": "어음·대출·IB·외화", "detail": "겸영 금융" }
+  ],
+  "edges": [
+    { "from": "company-needs", "to": "asset-use" },
+    { "from": "company-needs", "to": "risk-capital" },
+    { "from": "company-needs", "to": "package" },
+    { "from": "asset-use", "to": "finance-lease" },
+    { "from": "asset-use", "to": "operating-lease" },
+    { "from": "risk-capital", "to": "equity" },
+    { "from": "package", "to": "merchant" }
+  ]
+}

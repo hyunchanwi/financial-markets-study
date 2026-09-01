@@ -1,0 +1,22 @@
+{
+  "id": "supervision-system-flow",
+  "type": "flow",
+  "title": "정책 결정에서 현장 감독까지",
+  "caption": "금융위원회가 정책과 감독규칙을 설계하고, 금융감독원이 검사·감독·소비자보호 실무를 수행해 결과를 다시 정책에 반영한다.",
+  "nodes": [
+    { "id": "fsc", "label": "금융위원회", "detail": "정책·규정·인허가 결정" },
+    { "id": "ssc", "label": "증권선물위원회", "detail": "불공정거래·회계감리 심의" },
+    { "id": "fss", "label": "금융감독원", "detail": "검사·감독·제재·분쟁조정" },
+    { "id": "firms", "label": "금융회사·시장", "detail": "은행·증권·보험·중소금융" },
+    { "id": "consumers", "label": "금융소비자", "detail": "민원·분쟁·피해예방" },
+    { "id": "feedback", "label": "감독정보", "detail": "현장 위험과 제도개선 수요" }
+  ],
+  "edges": [
+    { "from": "fsc", "to": "ssc", "label": "전문 심의" },
+    { "from": "fsc", "to": "fss", "label": "감독정책" },
+    { "from": "fss", "to": "firms", "label": "검사·감독" },
+    { "from": "fss", "to": "consumers", "label": "분쟁조정·교육" },
+    { "from": "firms", "to": "feedback", "label": "검사결과" },
+    { "from": "feedback", "to": "fsc", "label": "정책 환류" }
+  ]
+}

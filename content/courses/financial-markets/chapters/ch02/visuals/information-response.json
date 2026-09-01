@@ -1,0 +1,17 @@
+{
+  "id": "information-response",
+  "type": "flow",
+  "title": "새 정보 뒤 가격이 움직이는 세 가지 모습",
+  "caption": "효율적 반응은 정보가 알려진 직후 새 균형가격으로 이동하고 그 뒤 체계적으로 이어지는 조정이 없다.",
+  "nodes": [
+    { "id": "news", "label": "새 정보 공개", "detail": "예상하지 못한 공시" },
+    { "id": "efficient", "label": "효율적 반응", "detail": "즉시 새 가격에 도달" },
+    { "id": "delayed", "label": "지연반응", "detail": "여러 기간에 걸쳐 천천히 반영" },
+    { "id": "overreaction", "label": "과민반응", "detail": "지나치게 움직인 뒤 일부 되돌림" }
+  ],
+  "edges": [
+    { "from": "news", "to": "efficient", "label": "즉시" },
+    { "from": "news", "to": "delayed", "label": "늦게" },
+    { "from": "news", "to": "overreaction", "label": "과도하게" }
+  ]
+}

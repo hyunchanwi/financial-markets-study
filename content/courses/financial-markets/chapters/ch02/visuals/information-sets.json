@@ -1,0 +1,15 @@
+{
+  "id": "information-sets",
+  "type": "tree",
+  "title": "정보집합은 안쪽에서 바깥쪽으로 포함된다",
+  "caption": "강형 정보집합에는 준강형 정보가, 준강형 정보집합에는 약형 정보가 포함된다. 효율성의 성립관계도 강형에서 약형 방향으로만 이어진다.",
+  "nodes": [
+    { "id": "weak", "label": "약형 정보", "detail": "과거 가격·거래량" },
+    { "id": "semi", "label": "준강형 정보", "detail": "약형 + 모든 공개정보" },
+    { "id": "strong", "label": "강형 정보", "detail": "준강형 + 비공개 내부정보" }
+  ],
+  "edges": [
+    { "from": "weak", "to": "semi", "label": "포함" },
+    { "from": "semi", "to": "strong", "label": "포함" }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "id": "community-finance-map",
+  "type": "tree",
+  "title": "비은행예금취급기관의 네 갈래",
+  "caption": "비슷한 예금 서비스를 제공해도 법적 형태·감독기관·보호기금이 다르므로 기관별 구조를 따로 확인해야 한다.",
+  "nodes": [
+    { "id": "nonbank", "label": "비은행 예금 서비스", "detail": "간판보다 법과 보호구조" },
+    { "id": "savings", "label": "상호저축은행", "detail": "제2금융권 주식회사" },
+    { "id": "mg", "label": "새마을금고", "detail": "개별 금고 협동조합" },
+    { "id": "cu", "label": "신용협동조합", "detail": "공동유대 협동조합" },
+    { "id": "post", "label": "우체국금융", "detail": "국가 운영 예금·보험" },
+    { "id": "kdic", "label": "예금보험공사", "detail": "저축은행 보호" },
+    { "id": "mutual-funds", "label": "각 중앙회 보호기금", "detail": "새마을금고·신협" },
+    { "id": "state", "label": "국가 책임 구조", "detail": "우체국예금·보험" }
+  ],
+  "edges": [
+    { "from": "nonbank", "to": "savings" },
+    { "from": "nonbank", "to": "mg" },
+    { "from": "nonbank", "to": "cu" },
+    { "from": "nonbank", "to": "post" },
+    { "from": "savings", "to": "kdic" },
+    { "from": "mg", "to": "mutual-funds" },
+    { "from": "cu", "to": "mutual-funds" },
+    { "from": "post", "to": "state" }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "securities-role-map",
+  "type": "flow",
+  "title": "증권사를 거치는 네 가지 자금 흐름",
+  "caption": "고객 주문을 중개하는 일과 증권사 자기자본을 운용하는 일, 기업의 증권발행을 돕는 일은 서로 다른 업무다.",
+  "nodes": [
+    { "id": "investor", "label": "투자자", "detail": "주문·투자자금" },
+    { "id": "broker", "label": "증권회사", "detail": "중개·운용·기업금융" },
+    { "id": "market", "label": "증권시장", "detail": "주식·채권·파생상품" },
+    { "id": "company", "label": "자금조달 기업", "detail": "IPO·회사채·M&A" },
+    { "id": "ksfc", "label": "한국증권금융", "detail": "고객예탁금 분리·유동성" }
+  ],
+  "edges": [
+    { "from": "investor", "to": "broker", "label": "위탁주문·자산관리" },
+    { "from": "broker", "to": "market", "label": "위탁·자기매매" },
+    { "from": "broker", "to": "company", "label": "IB 지원" },
+    { "from": "broker", "to": "ksfc", "label": "고객예탁금 예치" },
+    { "from": "ksfc", "to": "broker", "label": "자금·증권 공급" }
+  ]
+}

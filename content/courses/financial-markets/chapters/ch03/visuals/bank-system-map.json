@@ -1,0 +1,23 @@
+{
+  "id": "bank-system-map",
+  "type": "tree",
+  "title": "은행이라는 이름을 목적에 따라 분류하기",
+  "caption": "한국은행은 시스템의 중심, 일반은행은 상업금융, 특수은행은 정책금융이라는 기준으로 구분한다.",
+  "nodes": [
+    { "id": "banks", "label": "은행 시스템", "detail": "누구를 위해 무엇을 하는가?" },
+    { "id": "central", "label": "한국은행", "detail": "통화정책·발권·최종결제" },
+    { "id": "commercial", "label": "일반은행", "detail": "수신·여신·환업무" },
+    { "id": "policy", "label": "특수은행", "detail": "정책 분야의 자금공백 보완" },
+    { "id": "ibk", "label": "중소기업", "detail": "IBK기업은행" },
+    { "id": "industry", "label": "산업·수출입", "detail": "KDB·한국수출입은행" },
+    { "id": "agri", "label": "농수산", "detail": "NH농협은행·Sh수협은행" }
+  ],
+  "edges": [
+    { "from": "banks", "to": "central" },
+    { "from": "banks", "to": "commercial" },
+    { "from": "banks", "to": "policy" },
+    { "from": "policy", "to": "ibk" },
+    { "from": "policy", "to": "industry" },
+    { "from": "policy", "to": "agri" }
+  ]
+}

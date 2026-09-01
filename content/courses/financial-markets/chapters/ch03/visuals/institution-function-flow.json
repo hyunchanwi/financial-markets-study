@@ -1,0 +1,19 @@
+{
+  "id": "institution-function-flow",
+  "type": "flow",
+  "title": "남는 돈이 필요한 돈으로 변하는 과정",
+  "caption": "금융기관은 자금을 단순 전달하지 않고 규모·만기·위험·유동성을 바꾸며 지급결제와 정보생산을 함께 수행한다.",
+  "nodes": [
+    { "id": "suppliers", "label": "자금공급자", "detail": "가계의 소액·단기 자금" },
+    { "id": "institutions", "label": "금융기관", "detail": "모집·심사·변환·위험관리" },
+    { "id": "users", "label": "자금수요자", "detail": "기업·정부의 거액·장기 자금" },
+    { "id": "payment", "label": "지급결제", "detail": "거래 약속의 최종 완성" },
+    { "id": "information", "label": "정보생산", "detail": "차주 심사와 사후 감시" }
+  ],
+  "edges": [
+    { "from": "suppliers", "to": "institutions", "label": "예금·보험료·투자금" },
+    { "from": "institutions", "to": "users", "label": "대출·증권·보증" },
+    { "from": "information", "to": "institutions", "label": "선별" },
+    { "from": "institutions", "to": "payment", "label": "결제지시" }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "security-dependency",
+  "type": "flow",
+  "title": "증권 가치의 출발점",
+  "caption": "본원증권은 발행자의 현금흐름과 신용에서, 파생상품은 기초자산 가격에서 가치가 나온다.",
+  "nodes": [
+    { "id": "issuer", "label": "기업·정부", "detail": "자금조달 필요" },
+    { "id": "primary", "label": "본원증권", "detail": "주식·채권·CP" },
+    { "id": "underlying", "label": "기초자산 가격", "detail": "주가·금리·환율 등" },
+    { "id": "derivative", "label": "파생상품", "detail": "선물·옵션·스왑" }
+  ],
+  "edges": [
+    { "from": "issuer", "to": "primary", "label": "발행" },
+    { "from": "primary", "to": "underlying", "label": "시장가격 형성" },
+    { "from": "underlying", "to": "derivative", "label": "가치가 파생" }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "asset-management-chain",
+  "type": "flow",
+  "title": "펀드에서 역할을 나누는 구조",
+  "caption": "판매·운용·보관·감시를 분리하면 한 기관의 오류나 이해상충이 투자자재산 전체에 미치는 위험을 줄일 수 있다.",
+  "nodes": [
+    { "id": "investors", "label": "투자자", "detail": "투자금 납입·수익 귀속" },
+    { "id": "seller", "label": "판매회사", "detail": "가입·환매 창구" },
+    { "id": "manager", "label": "자산운용사", "detail": "상품설계·투자지시" },
+    { "id": "custodian", "label": "수탁회사", "detail": "자산 보관·거래 실행" },
+    { "id": "assets", "label": "투자자산", "detail": "주식·채권·부동산 등" }
+  ],
+  "edges": [
+    { "from": "investors", "to": "seller", "label": "가입·환매" },
+    { "from": "seller", "to": "manager", "label": "펀드 설정·해지" },
+    { "from": "manager", "to": "custodian", "label": "운용지시" },
+    { "from": "custodian", "to": "assets", "label": "매매·보관" },
+    { "from": "assets", "to": "investors", "label": "손익" }
+  ]
+}

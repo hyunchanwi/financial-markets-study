@@ -1,0 +1,23 @@
+{
+  "id": "guarantee-target-map",
+  "type": "tree",
+  "title": "기업의 특성에 맞는 보증기관",
+  "caption": "일반 신용·지역 소상공인·기술력을 각각 중심으로 평가하지만 실제 지원범위는 일부 겹칠 수 있다.",
+  "nodes": [
+    { "id": "business", "label": "담보가 부족한 사업자", "detail": "어떤 강점과 필요가 있는가?" },
+    { "id": "general", "label": "일반 중소·중견기업", "detail": "사업성과 신용" },
+    { "id": "local", "label": "소상공인·자영업자", "detail": "지역 기반 사업" },
+    { "id": "technology", "label": "기술·벤처기업", "detail": "기술성과 사업화 가능성" },
+    { "id": "kodit", "label": "신용보증기금", "detail": "일반보증·P-CBO" },
+    { "id": "regional", "label": "지역신용보증재단", "detail": "17개 시·도 단위" },
+    { "id": "kibo", "label": "기술보증기금", "detail": "기술평가·기술이전" }
+  ],
+  "edges": [
+    { "from": "business", "to": "general" },
+    { "from": "business", "to": "local" },
+    { "from": "business", "to": "technology" },
+    { "from": "general", "to": "kodit" },
+    { "from": "local", "to": "regional" },
+    { "from": "technology", "to": "kibo" }
+  ]
+}

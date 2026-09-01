@@ -1,0 +1,20 @@
+number: 1
+id: chapter-1
+title: 금융시장 기초
+description: 돈이 남는 주체와 필요한 주체가 어떻게 연결되고, 금융시장을 어떤 기준으로 나누는지 15쪽 강의자료를 한 단계씩 이해합니다.
+topics:
+  - 금융시장의 개념과 역할
+  - 직접금융과 간접금융
+  - 화폐시장과 자본시장
+  - 본원증권과 파생증권
+  - 국내시장과 국제시장
+  - 가계 자산구성
+memory: 누가 자금을 주고받는지, 무엇을 보유하는지, 만기가 얼마인지, 가격이 어디서 나오는지를 순서대로 묻자.
+delivery: pilot
+units:
+  - ch01-market-map
+  - ch01-direct-indirect
+  - ch01-money-capital
+  - ch01-primary-derivative
+  - ch01-domestic-international
+  - ch01-household-assets

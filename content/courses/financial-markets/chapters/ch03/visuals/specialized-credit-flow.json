@@ -1,0 +1,23 @@
+{
+  "id": "specialized-credit-flow",
+  "type": "flow",
+  "title": "예금 없이 여신을 공급하는 구조",
+  "caption": "여전사는 예금 대신 자기자본·채권·차입으로 자금을 조달하고 결제·할부·리스·기술금융으로 운용한다.",
+  "nodes": [
+    { "id": "market-funding", "label": "자금시장", "detail": "여전채·회사채" },
+    { "id": "lenders", "label": "금융기관", "detail": "차입 제공" },
+    { "id": "specialized", "label": "여신전문금융회사", "detail": "수신기능 없음" },
+    { "id": "card", "label": "신용카드", "detail": "결제·카드대출" },
+    { "id": "installment", "label": "할부금융", "detail": "구매대금 선지급" },
+    { "id": "lease", "label": "시설대여", "detail": "자산 구매 후 임대" },
+    { "id": "venture", "label": "신기술금융", "detail": "투자·융자" }
+  ],
+  "edges": [
+    { "from": "market-funding", "to": "specialized", "label": "채권발행" },
+    { "from": "lenders", "to": "specialized", "label": "차입" },
+    { "from": "specialized", "to": "card" },
+    { "from": "specialized", "to": "installment" },
+    { "from": "specialized", "to": "lease" },
+    { "from": "specialized", "to": "venture" }
+  ]
+}

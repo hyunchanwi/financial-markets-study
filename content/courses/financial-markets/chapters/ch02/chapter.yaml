@@ -1,0 +1,19 @@
+number: 2
+id: chapter-2
+title: 금융시장의 효율성
+description: 거래비용과 자금배분, 시점 간 소비선택, 정보가 가격에 반영되는 방식까지 금융시장이 ‘효율적’이라는 말의 서로 다른 뜻을 구분합니다.
+topics:
+  - 운영·배분·정보효율성
+  - 시점 간 소비선택
+  - 시장기회선과 이자율
+  - 가격의 정보반영 속도
+  - 약형·준강형·강형 효율성
+  - 시장 이례현상
+memory: 효율성을 물으면 비용과 속도, 자금의 목적지, 가격에 포함된 정보 중 어떤 기준인지 먼저 확인한다.
+delivery: pilot
+units:
+  - ch02-efficiency-types
+  - ch02-intertemporal-choice
+  - ch02-price-response
+  - ch02-information-forms
+  - ch02-anomalies

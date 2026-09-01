@@ -1,0 +1,19 @@
+{
+  "id": "anomaly-map",
+  "type": "tree",
+  "title": "강의자료에 나온 대표적 시장 이례현상",
+  "caption": "반복되는 수익률 패턴은 효율성에 질문을 던지지만, 거래비용·위험·표본선택을 검토한 뒤 해석해야 한다.",
+  "nodes": [
+    { "id": "anomaly", "label": "이례현상", "detail": "단순 효율시장 설명과 다른 패턴" },
+    { "id": "january", "label": "1월효과", "detail": "연초 수익률 차이" },
+    { "id": "weekend", "label": "주말효과", "detail": "요일별 수익률 차이" },
+    { "id": "per", "label": "저PER 효과", "detail": "낮은 PER 그룹의 성과차이" },
+    { "id": "pbr", "label": "저PBR 효과", "detail": "낮은 PBR 그룹의 성과차이" }
+  ],
+  "edges": [
+    { "from": "anomaly", "to": "january" },
+    { "from": "anomaly", "to": "weekend" },
+    { "from": "anomaly", "to": "per" },
+    { "from": "anomaly", "to": "pbr" }
+  ]
+}

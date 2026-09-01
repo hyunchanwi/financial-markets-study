@@ -1,0 +1,24 @@
+{
+  "id": "financial-safety-net-flow",
+  "type": "flow",
+  "title": "부실 발생 전후의 금융안전망",
+  "caption": "KDIC는 예금자 보호와 금융회사 정리를, KAMCO는 부실채권과 자산의 회수·재구조화를 중심으로 담당한다.",
+  "nodes": [
+    { "id": "monitor", "label": "평상시 감시", "detail": "건전성·부실징후 확인" },
+    { "id": "failure", "label": "금융회사·채무 부실", "detail": "예금지급·채권회수 문제" },
+    { "id": "kdic", "label": "예금보험공사", "detail": "보험금·부실금융회사 정리" },
+    { "id": "kamco", "label": "한국자산관리공사", "detail": "부실채권·공공자산 정리" },
+    { "id": "depositors", "label": "예금자 보호", "detail": "보호대상 예금 지급" },
+    { "id": "recovery", "label": "가치회복·재기", "detail": "매각·구조조정·신용회복" },
+    { "id": "stability", "label": "금융안정", "detail": "충격의 확산 억제" }
+  ],
+  "edges": [
+    { "from": "monitor", "to": "failure", "label": "예방 실패 시" },
+    { "from": "failure", "to": "kdic" },
+    { "from": "failure", "to": "kamco" },
+    { "from": "kdic", "to": "depositors" },
+    { "from": "kamco", "to": "recovery" },
+    { "from": "depositors", "to": "stability" },
+    { "from": "recovery", "to": "stability" }
+  ]
+}

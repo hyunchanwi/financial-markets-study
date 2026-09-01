@@ -1,0 +1,21 @@
+{
+  "id": "clearing-settlement-flow",
+  "type": "flow",
+  "title": "지급지시가 최종결제되는 순서",
+  "caption": "금융결제원은 양방향 지급을 상계해 순액을 계산하고, 최종 자금이동은 한국은행에 개설된 은행 계좌에서 완성된다.",
+  "nodes": [
+    { "id": "payer", "label": "지급인", "detail": "송금·카드·자동이체 지시" },
+    { "id": "payer-bank", "label": "지급은행", "detail": "지급정보 전송" },
+    { "id": "kftc", "label": "금융결제원", "detail": "확인·청산·차액계산" },
+    { "id": "boks", "label": "한국은행 결제계좌", "detail": "은행 간 최종 자금이동" },
+    { "id": "receiver-bank", "label": "수취은행", "detail": "입금 처리" },
+    { "id": "receiver", "label": "수취인", "detail": "대금 수령" }
+  ],
+  "edges": [
+    { "from": "payer", "to": "payer-bank", "label": "지급지시" },
+    { "from": "payer-bank", "to": "kftc", "label": "거래자료" },
+    { "from": "kftc", "to": "boks", "label": "순액결제 요청" },
+    { "from": "boks", "to": "receiver-bank", "label": "최종결제" },
+    { "from": "receiver-bank", "to": "receiver", "label": "입금" }
+  ]
+}

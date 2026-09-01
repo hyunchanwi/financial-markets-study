@@ -1,0 +1,16 @@
+{
+  "id": "direct-indirect-paths",
+  "type": "flow",
+  "title": "직접금융과 간접금융의 두 경로",
+  "caption": "간접금융에서는 금융기관이 자신의 증권을 발행해 자금을 모은 뒤 다시 공급한다.",
+  "nodes": [
+    { "id": "supplier", "label": "자금공급자", "detail": "가계·투자자" },
+    { "id": "intermediary", "label": "금융기관", "detail": "예금 수취·심사·대출" },
+    { "id": "demander", "label": "자금수요자", "detail": "기업·정부" }
+  ],
+  "edges": [
+    { "from": "supplier", "to": "demander", "label": "직접: 주식·회사채 보유" },
+    { "from": "supplier", "to": "intermediary", "label": "간접: 예금 보유" },
+    { "from": "intermediary", "to": "demander", "label": "대출" }
+  ]
+}

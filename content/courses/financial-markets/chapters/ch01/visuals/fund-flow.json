@@ -1,0 +1,16 @@
+{
+  "id": "fund-flow",
+  "type": "flow",
+  "title": "여유자금이 필요한 곳으로 이동하는 흐름",
+  "caption": "금융시장은 공급자와 수요자를 연결하고 거래가격을 형성한다.",
+  "nodes": [
+    { "id": "supplier", "label": "자금공급자", "detail": "가계의 저축·투자" },
+    { "id": "market", "label": "금융시장", "detail": "금융상품 거래·가격 결정" },
+    { "id": "demander", "label": "자금수요자", "detail": "기업 투자·정부 사업" }
+  ],
+  "edges": [
+    { "from": "supplier", "to": "market", "label": "여유자금" },
+    { "from": "market", "to": "demander", "label": "조달자금" },
+    { "from": "demander", "to": "supplier", "label": "이자·배당·상환" }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "insurance-balance-map",
+  "type": "flow",
+  "title": "보험료가 보장과 장기투자로 이어지는 과정",
+  "caption": "보험사는 위험을 인수하는 동시에 미래 보험금 지급에 맞춰 준비금을 장기 운용한다.",
+  "nodes": [
+    { "id": "policyholders", "label": "보험가입자", "detail": "보험료 납부" },
+    { "id": "insurer", "label": "보험회사", "detail": "위험집단·계약 관리" },
+    { "id": "reserve", "label": "보험부채·준비금", "detail": "미래 지급의무" },
+    { "id": "portfolio", "label": "운용자산", "detail": "채권·주식·부동산" },
+    { "id": "claims", "label": "보험금 지급", "detail": "사고·만기 발생" },
+    { "id": "capital", "label": "가용자본", "detail": "예상 밖 손실 흡수" }
+  ],
+  "edges": [
+    { "from": "policyholders", "to": "insurer", "label": "보험료" },
+    { "from": "insurer", "to": "reserve", "label": "지급의무 인식" },
+    { "from": "reserve", "to": "portfolio", "label": "장기 운용" },
+    { "from": "portfolio", "to": "claims", "label": "현금화" },
+    { "from": "insurer", "to": "claims", "label": "보상" },
+    { "from": "capital", "to": "insurer", "label": "충격 흡수" }
+  ]
+}
