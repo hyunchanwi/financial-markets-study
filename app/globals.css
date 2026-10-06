@@ -80,3 +80,43 @@
 @media(max-width:480px){
   .visual-node-grid{grid-template-columns:1fr}.asset-chart{height:270px}.opportunity-chart{height:300px}.unit-hero h2{font-size:26px}.detail-visual figcaption{font-size:12px}.detail-table-scroll{display:block}
 }
+.claude-notes-inline{box-sizing:border-box;margin:32px 0;padding:0;border:1px solid #ccd7d0;border-radius:16px;background:#fffdf8;color:#243a30;font:16px/1.8 system-ui;overflow:hidden;scroll-margin-top:90px}
+.claude-notes-header{padding:20px 24px;border-bottom:1px solid #dce3da}
+.claude-notes-header h2{margin:0;font-size:clamp(20px,3vw,26px);line-height:1.4;color:#164b37}
+.claude-notes-header .claude-notes-label{margin:0 0 6px;font-size:13px;color:#517060}
+.claude-notes-body{padding:24px}
+.claude-notes-notice{margin:0 0 24px;padding:16px;border-radius:10px;background:#f0f3eb;font-size:14px;line-height:1.8}
+.claude-notes-filters{display:flex;gap:16px;flex-wrap:wrap}
+.claude-notes-filters label{display:grid;gap:5px;flex:1;min-width:180px;font-size:13px;font-weight:600}
+.claude-notes-filters input,.claude-notes-filters select{box-sizing:border-box;width:100%;padding:10px 12px;border:1px solid #abc1b3;border-radius:8px;background:#fff;color:#243a30;font:16px system-ui}
+.claude-notes-count{display:block;margin:14px 0;font-size:13px;color:#517060}
+.claude-notes-card{margin:20px 0;border:1px solid #d7dfd6;border-radius:12px;background:#fff;scroll-margin-top:90px}
+.claude-notes-card h3{margin:0;padding:18px 20px;font-size:18px;line-height:1.6;color:#164b37}
+.claude-notes-card h3 span{display:block;font-size:12px;color:#517060}
+.claude-notes-detail{padding:0 20px 20px}
+.claude-notes-detail>p{margin:12px 0;font-size:16px;line-height:1.9;overflow-wrap:anywhere}
+.claude-notes-check{margin:20px 0;padding:14px;background:#f4f7f1;border-radius:8px}
+.claude-notes-check>summary{cursor:pointer;font-weight:600}
+.claude-notes-check p{margin:10px 0 0;line-height:1.8}
+.claude-notes-check>summary:focus-visible{outline:3px solid #d59b20;outline-offset:3px}
+.claude-notes-detail footer{border-top:1px solid #dce3da;padding-top:14px;font-size:12px;line-height:1.9;color:#5e7066;overflow-wrap:anywhere}
+@media(max-width:600px){.claude-notes-header,.claude-notes-body{padding:18px 16px}.claude-notes-card h3{font-size:17px}.claude-notes-detail{padding:0 16px 16px}}
+.claude-notes-jump{display:inline-block;margin:12px 0;padding:9px 14px;border:1px solid #b5cdbd;border-radius:10px;color:#164b37;background:#f0f5ed;font:600 14px/1.5 system-ui;text-decoration:none}
+.claude-notes-jump:focus-visible{outline:3px solid #d59b20;outline-offset:3px}
+.claude-notes-group-title{margin:30px 0 12px;font-size:22px;line-height:1.5;color:#164b37}
+.claude-notes-outline{display:grid;gap:8px;padding:16px;border:1px solid #d7dfd6;border-radius:10px;background:#f4f7f1}
+.claude-notes-outline a{color:#164b37;text-decoration:underline;text-underline-offset:4px;overflow-wrap:anywhere}
+.claude-notes-card h4{margin:0;padding:18px 20px;font-size:19px;line-height:1.6;color:#164b37}
+.claude-notes-card h4>span{display:block;font-size:12px;color:#517060}
+.claude-notes-topic{margin:24px 0;padding-top:16px;border-top:1px solid #dce3da}
+.claude-notes-topic h5{display:flex;gap:10px;margin:0 0 12px;font-size:18px;line-height:1.6;color:#164b37}
+.claude-notes-topic h5 span{flex:none;color:#668472;font-size:13px;padding-top:3px}
+.claude-notes-topic p{margin:12px 0;line-height:1.9;overflow-wrap:anywhere}
+.claude-notes-formula,.claude-notes-code{white-space:pre-wrap;overflow-wrap:anywhere;padding:16px;border-radius:8px;background:#183e30;color:#fff;font:14px/1.9 ui-monospace,monospace}
+.claude-notes-code code{display:block;margin:0;padding:0;background:transparent;color:inherit;font:inherit}
+.claude-notes-example,.claude-notes-source-status,.claude-notes-asked{padding:14px;border-radius:8px;background:#f4f7f1;overflow-wrap:anywhere}
+.claude-notes-asked ul{padding-left:22px;margin:8px 0}
+.claude-notes-asked li{margin:6px 0;list-style:disc}
+.claude-notes-source-status{font-size:13px;line-height:1.9}
+.claude-notes-outline a:focus-visible{outline:3px solid #d59b20;outline-offset:3px}
+@media(max-width:600px){.claude-notes-card h4{font-size:18px;padding:16px}.claude-notes-topic h5{font-size:17px}.claude-notes-formula,.claude-notes-code{font-size:13px;padding:12px}.claude-notes-group-title{font-size:20px}}
