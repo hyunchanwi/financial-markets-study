@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import { courseName, scopeOptions, studyNotes } from '../src/claude-study-data';
-import { lectureSummaries } from '../src/lecture-summaries';
+import { findLectureSummaries } from '../src/lecture-summaries';
 
 export function StudyNotesJump({ children }: { children: ReactNode }) {
   return <a className="claude-notes-jump" href="#study-conversation-notes" onClick={(event) => {
@@ -18,13 +18,9 @@ export function ClaudeStudyNotes({ initialScope = 'all', locked = false }: { ini
   const currentScope = locked ? initialScope : scope;
   const scopeLabel = scopeOptions.find((item) => item.id === currentScope)?.label ?? (currentScope.startsWith('ch') ? `${currentScope.slice(2)}장 · 추가 학습 정리 미확인` : '전체 강의');
   const terms = useMemo(() => query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean), [query]);
-  const scopedLectures = useMemo(() => lectureSummaries.filter((lecture) => currentScope === 'all' || lecture.scopes.includes(currentScope)), [currentScope]);
+  const scopedLectures = useMemo(() => findLectureSummaries(currentScope), [currentScope]);
   const scopedNotes = useMemo(() => studyNotes.filter((note) => currentScope === 'all' || note.scopes.includes(currentScope)), [currentScope]);
-  const lectures = useMemo(() => scopedLectures.filter((lecture) => {
-    const searchable = [lecture.title, lecture.overview, lecture.location, lecture.recordingStatus, ...lecture.sources,
-      ...lecture.sections.flatMap((section) => [section.title, ...section.paragraphs, section.formula, section.example, section.code])].join(' ').toLocaleLowerCase();
-    return terms.every((term) => searchable.includes(term));
-  }), [scopedLectures, terms]);
+  const lectures = useMemo(() => findLectureSummaries(currentScope, query), [currentScope, query]);
   const results = useMemo(() => scopedNotes.filter((note) => terms.every((term) =>
     [note.title, note.chapter, note.source, note.location, ...note.questionsAsked, ...note.explanation, note.question, note.answer].join(' ').toLocaleLowerCase().includes(term),
   )), [scopedNotes, terms]);
@@ -36,7 +32,7 @@ export function ClaudeStudyNotes({ initialScope = 'all', locked = false }: { ini
         <h2 id="claude-notes-title">함께 공부한 내용 총정리 + 내 질문·혼동 노트</h2>
       </header>
       <div className="claude-notes-body">
-        <p className="claude-notes-notice">기존 본문에 이어, 내보내기에서 확인한 학습 대화의 개념·풀이를 강의별로 상세 재구성했습니다. 아래 ① 전체 학습 정리와 ② 내가 질문·헷갈린 부분은 별개입니다. 강의 번호를 주차 번호로 임의 변환하지 않았습니다. 페이지와 녹음 언급은 과거 대화 기준이며 이번 작업에서 원본을 재검증한 표시는 아닙니다. 내보내기에 없는 그림·산출물·Cowork 내용까지 모두 복원한 것은 아닙니다. 일반 보충과 편집 예제는 구분합니다.</p>
+        <p className="claude-notes-notice">기존 본문에 이어, GPT·Claude 학습 대화에서 확인한 개념·풀이를 강의별로 통합 재구성했습니다. 아래 ① 전체 학습 정리와 ② 실제 질문의 요지는 구분하며, 접힌 확인 문제·해설은 별도로 만든 복습용입니다. 강의 번호를 주차 번호로 임의 변환하지 않았습니다. 페이지와 녹음 언급은 과거 대화 기준이며 이번 작업에서 원본을 재검증한 표시는 아닙니다. 직접 검산한 계산은 따로 표시합니다. 일부 대화는 20,000자 제한으로 잘렸고 이번에 확보한 대화 본문에는 일부 코드·PDF 산출물의 실제 내용이 포함되지 않아 전체 복원이나 전수 검증을 뜻하지 않습니다. 일반 보충과 재구성 예제를 구분합니다.</p>
         <div className="claude-notes-filters">
           <label>이 범위에서 검색<input value={query} onChange={(event) => setQuery(event.target.value)} type="search" placeholder="학습 개념, 질문, 코드, 페이지 검색" /></label>
           {!locked && <label>학습 강의 선택<select value={scope} onChange={(event) => { setScope(event.target.value); setQuery(''); }}><option value="all">전체 강의</option>{scopeOptions.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}</select></label>}
@@ -62,6 +58,7 @@ export function ClaudeStudyNotes({ initialScope = 'all', locked = false }: { ini
                 {section.formula && <pre className="claude-notes-formula">{section.formula}</pre>}
                 {section.example && <p className="claude-notes-example">{section.example}</p>}
                 {section.code && <pre className="claude-notes-code"><code>{section.code}</code></pre>}
+                {section.checks?.map((check) => <details key={check.question} className="claude-notes-check"><summary>별도 복습 확인 · {check.question}</summary><p>{check.answer}</p></details>)}
               </section>)}
               <footer><strong>학습 대화 출처:</strong> {lecture.sources.join(' / ')}<br />과거 대화의 설명을 편집하여 재구성 / 현재 원본 PDF·전사본 대조 전</footer>
             </div>
