@@ -95,3 +95,8 @@ test('수신·대출 방향, 3자 차액결제와 자본 계정 비교를 구분
   assert.match(component, /data-study-coverage/);
   assert.match(component, /기본 요약 중심/);
 });
+
+test('이미 정규화된 직접 장 링크도 마지막 위치를 저장한다', () => {
+  const page = readFileSync(new URL('../../app/page.tsx', import.meta.url), 'utf8');
+  assert.match(page, /writeLocation\(restoredLocation.chapter[^;]+;\s*\} else \{\s*try \{\s*window.localStorage.setItem\(lastLocationKey, JSON.stringify\(restoredLocation\)\)/);
+});

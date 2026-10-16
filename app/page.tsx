@@ -756,6 +756,12 @@ export default function Home() {
     if (!hasValidUrlChapter || needsDetailedUnit) {
       const canonicalUnit = restoredLocation.unitId ?? firstDetailedUnit(restoredLocation.chapter)?.id;
       writeLocation(restoredLocation.chapter, restoredLocation.targetId ?? canonicalUnit, true, canonicalUnit);
+    } else {
+      try {
+        window.localStorage.setItem(lastLocationKey, JSON.stringify(restoredLocation));
+      } catch {
+        setStorageError('이 브라우저에서는 마지막 학습 위치를 저장할 수 없습니다.');
+      }
     }
     if (restoredLocation.targetId) focusDestination(restoredLocation.targetId, false);
 
