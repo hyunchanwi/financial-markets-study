@@ -30,6 +30,7 @@ export function ClaudeStudyNotes({ initialScope = 'all', locked = false }: { ini
       <header className="claude-notes-header">
         <p className="claude-notes-label">{courseName} · {scopeLabel}</p>
         <h2 id="claude-notes-title">함께 공부한 내용 총정리 + 내 질문·혼동 노트</h2>
+        {locked && <p className="claude-notes-notice" data-study-coverage={scopedLectures.length ? 'expanded' : 'base-only'}>{scopedLectures.length ? '이 장: 기존 본문 + 확인된 학습 대화의 상세 정리·질문을 함께 제공합니다. 대화가 이 장의 모든 강의 범위를 덮는다는 뜻은 아닙니다.' : '이 장: 현재는 기존 기본 요약 중심입니다. 상세 학습 대화·예제의 추가 반영은 아직 확인되지 않았습니다.'}</p>}
       </header>
       <div className="claude-notes-body">
         <p className="claude-notes-notice">기존 본문에 이어, GPT·Claude 학습 대화에서 확인한 개념·풀이를 강의별로 통합 재구성했습니다. 아래 ① 전체 학습 정리와 ② 실제 질문의 요지는 구분하며, 접힌 확인 문제·해설은 별도로 만든 복습용입니다. 강의 번호를 주차 번호로 임의 변환하지 않았습니다. 페이지와 녹음 언급은 과거 대화 기준이며 이번 작업에서 원본을 재검증한 표시는 아닙니다. 직접 검산한 계산은 따로 표시합니다. 일부 대화는 20,000자 제한으로 잘렸고 이번에 확보한 대화 본문에는 일부 코드·PDF 산출물의 실제 내용이 포함되지 않아 전체 복원이나 전수 검증을 뜻하지 않습니다. 일반 보충과 재구성 예제를 구분합니다.</p>

@@ -79,3 +79,19 @@ test('게시용 통합 데이터에 비공개 경로·산출물 링크를 넣지
   assert.doesNotMatch(content, /sandbox:|\/Users\/|\/mnt\/data|https?:\/\/[^\s"]*chatgpt\.com\/c\//);
   assert.ok(studyNotes.some((note) => note.source.includes('GPT')));
 });
+
+test('수신·대출 방향, 3자 차액결제와 자본 계정 비교를 구분한다', () => {
+  const content = lectureSummaries.map(getLectureSearchText).join(' ');
+  assert.doesNotMatch(content, /기업대출·어음 등 수신/);
+  assert.match(content, /어음 등을 통한 수신·조달/);
+  const net = [60-100, 100-80, 80-60];
+  assert.deepEqual(net, [-40,20,20]);
+  assert.equal(net.reduce((a,b) => a+b, 0), 0);
+  assert.equal(net.filter((n) => n<0).reduce((a,n) => a-n, 0), 40);
+  assert.match(content, /총 지급채무 240 → 순 지급채무 40/);
+  assert.match(content, /자본금 600·자본잉여금 200/);
+  assert.match(content, /자본금 600·이익잉여금 100/);
+  const component = readFileSync(new URL('../../app/claude-study-notes.tsx', import.meta.url), 'utf8');
+  assert.match(component, /data-study-coverage/);
+  assert.match(component, /기본 요약 중심/);
+});
